@@ -44,6 +44,10 @@ export class App extends Component {
       .catch(error => this.setState({ error, status: 'rejected' }));
   };
 
+  onLoadMore = () => {
+    this.getImages();
+  };
+
   componentDidUpdate(_, prevState) {
     const prevValue = prevState.value;
     const nextValue = this.state.value;
@@ -65,6 +69,7 @@ export class App extends Component {
           error={error}
           value={value}
           status={status}
+          onLoadMore={this.onLoadMore}
         />
 
         <GlobalStyle />

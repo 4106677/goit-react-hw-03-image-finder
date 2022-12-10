@@ -4,6 +4,8 @@ export const Btn = styled.button`
   &:hover &:focus {
     background-color: #303f9f;
   }
+
+  margin: 0 auto;
   padding: 8px 16px;
   border-radius: 2px;
   background-color: #3f51b5;
