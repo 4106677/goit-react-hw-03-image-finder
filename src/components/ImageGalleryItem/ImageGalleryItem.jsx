@@ -1,9 +1,16 @@
-import { Item, Image } from './ImafeGalleryItem.styled';
+import { Component } from 'react';
+import { Item, Image } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = () => {
-  return (
-    <Item>
-      <Image src="" alt="" />
-    </Item>
-  );
-};
+export default class ImageGalleryItem extends Component {
+  render() {
+    const { id, webformatURL, tags } = this.props;
+
+    return (
+      <Item key={id}>
+        {/* {console.log(this.props)} */}
+
+        <Image src={webformatURL} alt={tags} />
+      </Item>
+    );
+  }
+}
