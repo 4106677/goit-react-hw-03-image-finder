@@ -3,6 +3,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Div } from './App.styled';
 import { Component } from 'react';
+import Modal from './Modal/Modal';
 
 import fetchImages from '../api/api';
 
@@ -58,8 +59,19 @@ export class App extends Component {
     }
   }
 
+  onOpenModal = (url, alt) => {
+    this.setState({ largeImageURL: url, imageAlt: alt });
+
+    this.modalToggle();
+  };
+
+  modalToggle = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
   render() {
-    const { error, images, value, status } = this.state;
+    const { status, error, images, largeImageURL, imageAlt, showModal } =
+      this.state;
 
     return (
       <Div>
@@ -67,11 +79,17 @@ export class App extends Component {
         <ImageGallery
           images={images}
           error={error}
-          value={value}
           status={status}
           onLoadMore={this.onLoadMore}
+          onClick={this.onOpenModal}
         />
-
+        {showModal && (
+          <Modal
+            src={largeImageURL}
+            alt={imageAlt}
+            onCloseModal={this.modalToggle}
+          />
+        )}
         <GlobalStyle />
       </Div>
     );

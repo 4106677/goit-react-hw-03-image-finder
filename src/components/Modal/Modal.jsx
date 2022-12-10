@@ -1,18 +1,43 @@
+import PropTypes from 'prop-types';
 import { Overlay, ModalCard } from './Modal.styled';
-import * as basicLightbox from 'basiclightbox';
 
-export const Modal = () => {
-  return (
-    <Overlay>
-      <ModalCard>
-        <img src="" alt="" />
-      </ModalCard>
-    </Overlay>
-  );
+import { Component } from 'react';
+
+export default class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleCloseModal);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleCloseModal);
+  }
+
+  handleCloseModal = e => {
+    if (e.code === 'Escape' || e.target === e.currentTarget) {
+      this.props.onCloseModal();
+    }
+  };
+
+  handleBackdropClick = event => {
+    if (event.currentTarget === event.target) {
+      this.props.onCloseModal();
+    }
+  };
+
+  render() {
+    const { src, alt } = this.props;
+    return (
+      <Overlay onClick={this.handleBackdropClick}>
+        <ModalCard>
+          <img src={src} alt={alt} />
+        </ModalCard>
+      </Overlay>
+    );
+  }
+}
+
+Modal.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
 };
-
-const instance = basicLightbox.create(`
-    <img src="assets/images/image.png" width="800" height="600">
-`);
-
-instance.show();
