@@ -9,7 +9,7 @@ const fetchImages = async (value, pageNumber) => {
   );
   //   console.log(response.data.hits);
 
-  return data.data.hits;
+  return data.data;
 };
 
 // const fetchImages = async (query, currentPage) => {

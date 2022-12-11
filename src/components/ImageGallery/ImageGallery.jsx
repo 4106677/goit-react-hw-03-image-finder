@@ -5,7 +5,7 @@ import { Component } from 'react';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import Loader from 'components/Loader/Loader';
 
-import { Button } from 'components/Button/Button';
+// import { Button } from 'components/Button/Button';
 
 export default class ImageGallery extends Component {
   handleImageClick = (imageURL, imageALT) => {
@@ -13,7 +13,7 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    const { status, error, images, onLoadMore } = this.props;
+    const { status, error, images } = this.props;
 
     if (status === 'pending') {
       return Loader();
@@ -28,7 +28,6 @@ export default class ImageGallery extends Component {
             {images.map(({ id, tags, webformatURL, largeImageURL, status }) => (
               <ImageGalleryItem
                 key={id}
-                id={id}
                 tags={tags}
                 webformatURL={webformatURL}
                 largeImageURL={largeImageURL}
@@ -37,7 +36,7 @@ export default class ImageGallery extends Component {
               />
             ))}
           </Gallery>
-          <Button onLoadMore={onLoadMore} />
+          {/* <Button onLoadMore={onLoadMore} /> */}
         </>
       );
     }
@@ -48,6 +47,6 @@ ImageGallery.propTypes = {
   images: PropTypes.array,
   error: PropTypes.string,
   status: PropTypes.string.isRequired,
-  onLoadMore: PropTypes.func.isRequired,
+
   onClick: PropTypes.func.isRequired,
 };

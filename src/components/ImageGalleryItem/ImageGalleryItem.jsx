@@ -9,10 +9,12 @@ export default class ImageGalleryItem extends Component {
   };
 
   render() {
-    const { id, webformatURL, tags } = this.props;
+    const { webformatURL, tags } = this.props;
 
     return (
-      <Item key={id}>
+      <Item
+      // key={id}
+      >
         <Image src={webformatURL} alt={tags} onClick={this.handleImageClick} />
       </Item>
     );
@@ -20,7 +22,7 @@ export default class ImageGalleryItem extends Component {
 }
 
 ImageGalleryItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  // id: PropTypes.number.isRequired,
   tags: PropTypes.string.isRequired,
   webformatURL: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,

@@ -6,6 +6,7 @@ import { Component } from 'react';
 import Modal from './Modal/Modal';
 
 import fetchImages from '../api/api';
+import { Button } from './Button/Button';
 
 export class App extends Component {
   state = {
@@ -17,6 +18,7 @@ export class App extends Component {
     showModal: false,
     largeImageURL: '',
     imageAlt: '',
+    showBtn: false,
   };
 
   submitSearch = ({ query }) => {
@@ -27,26 +29,40 @@ export class App extends Component {
       pageNumber: 1,
       images: [],
     });
-    console.log(this.state);
+    // console.log(this.state);
   };
 
   getImages = () => {
     const { value, pageNumber } = this.state;
 
     fetchImages(value, pageNumber)
-      .then(res =>
+      .then(res => {
         this.setState(({ images, pageNumber }) => ({
-          images: [...images, ...res],
+          images: [...images, ...res.hits],
           status: 'resolved',
-          pageNumber: pageNumber + 1,
-        }))
-      )
+
+          // pageNumber: pageNumber + 1,
+          // if (pageNumber < Math.ceil(totalHits / 12)) {}
+        }));
+        // console.log(Math.ceil(res.totalHits / 12));
+        // console.log(pageNumber);
+        if (pageNumber < Math.ceil(res.totalHits / 12)) {
+          // console.log('ok');
+          this.setState(({ showBtn }) => ({
+            showBtn: true,
+          }));
+        }
+      })
 
       .catch(error => this.setState({ error, status: 'rejected' }));
   };
 
-  onLoadMore = () => {
-    this.getImages();
+  onLoadMore = async () => {
+    await this.setState(({ pageNumber, showBtn }) => ({
+      pageNumber: pageNumber + 1,
+      showBtn: false,
+    }));
+    await this.getImages();
   };
 
   componentDidUpdate(_, prevState) {
@@ -57,6 +73,21 @@ export class App extends Component {
       this.setState({ status: 'pending' });
       this.getImages();
     }
+
+    console.log(prevValue);
+
+    // console.log(prevValue);
+    // console.log(nextValue);
+    // console.log(this.state.pageNumber);
+    // console.log(prevState.pageNumber);
+
+    // if (
+    //   prevState.pageNumber !== this.state.pageNumber ||
+    //   prevValue !== this.state.value
+    // ) {
+    //   this.setState({ status: 'pending' });
+    //   this.getImages();
+    // }
   }
 
   onOpenModal = (url, alt) => {
@@ -69,9 +100,18 @@ export class App extends Component {
     this.setState(({ showModal }) => ({ showModal: !showModal }));
   };
 
+  // showBtnToggle = () => {this}
+
   render() {
-    const { status, error, images, largeImageURL, imageAlt, showModal } =
-      this.state;
+    const {
+      status,
+      error,
+      images,
+      largeImageURL,
+      imageAlt,
+      showModal,
+      showBtn,
+    } = this.state;
 
     return (
       <Div>
@@ -83,6 +123,8 @@ export class App extends Component {
           onLoadMore={this.onLoadMore}
           onClick={this.onOpenModal}
         />
+        {showBtn && <Button onLoadMore={this.onLoadMore} />}
+
         {showModal && (
           <Modal
             src={largeImageURL}
