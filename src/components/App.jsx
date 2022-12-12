@@ -34,16 +34,11 @@ export class App extends Component {
 
     fetchImages(value, pageNumber)
       .then(res => {
-        this.setState(({ images, pageNumber }) => ({
+        this.setState(({ images, pageNumber, showBtn }) => ({
           images: [...images, ...res.hits],
           status: 'resolved',
+          showBtn: pageNumber < Math.ceil(res.totalHits / 12),
         }));
-
-        if (pageNumber < Math.ceil(res.totalHits / 12)) {
-          this.setState(({ showBtn }) => ({
-            showBtn: true,
-          }));
-        }
       })
 
       .catch(error => this.setState({ error, status: 'rejected' }));
