@@ -22,14 +22,11 @@ export class App extends Component {
   };
 
   submitSearch = ({ query }) => {
-    // console.log(fetchImages());
-
     this.setState({
       value: query,
       pageNumber: 1,
       images: [],
     });
-    // console.log(this.state);
   };
 
   getImages = () => {
@@ -40,14 +37,9 @@ export class App extends Component {
         this.setState(({ images, pageNumber }) => ({
           images: [...images, ...res.hits],
           status: 'resolved',
-
-          // pageNumber: pageNumber + 1,
-          // if (pageNumber < Math.ceil(totalHits / 12)) {}
         }));
-        // console.log(Math.ceil(res.totalHits / 12));
-        // console.log(pageNumber);
+
         if (pageNumber < Math.ceil(res.totalHits / 12)) {
-          // console.log('ok');
           this.setState(({ showBtn }) => ({
             showBtn: true,
           }));
@@ -60,25 +52,16 @@ export class App extends Component {
   onLoadMore = async () => {
     await this.setState(({ pageNumber, showBtn }) => ({
       pageNumber: pageNumber + 1,
-      showBtn: false,
     }));
-    await this.getImages();
   };
 
   componentDidUpdate(_, prevState) {
     const prevValue = prevState.value;
     const nextValue = this.state.value;
 
-    // if (prevValue !== nextValue) {
-    //   this.setState({ status: 'pending' });
-    //   this.getImages();
-    // }
-
-    console.log(prevValue);
-
     if (
       prevState.pageNumber !== this.state.pageNumber ||
-      prevValue !== this.state.value
+      prevValue !== nextValue
     ) {
       this.setState({ status: 'pending' });
       this.getImages();
@@ -94,8 +77,6 @@ export class App extends Component {
   modalToggle = () => {
     this.setState(({ showModal }) => ({ showModal: !showModal }));
   };
-
-  // showBtnToggle = () => {this}
 
   render() {
     const {

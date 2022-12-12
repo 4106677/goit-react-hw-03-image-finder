@@ -27,7 +27,7 @@ export default class ImageGallery extends Component {
           <Gallery>
             {images.map(({ id, tags, webformatURL, largeImageURL, status }) => (
               <ImageGalleryItem
-                key={id}
+                key={webformatURL}
                 tags={tags}
                 webformatURL={webformatURL}
                 largeImageURL={largeImageURL}
@@ -36,7 +36,6 @@ export default class ImageGallery extends Component {
               />
             ))}
           </Gallery>
-          {/* <Button onLoadMore={onLoadMore} /> */}
         </>
       );
     }
