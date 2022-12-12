@@ -69,25 +69,20 @@ export class App extends Component {
     const prevValue = prevState.value;
     const nextValue = this.state.value;
 
-    if (prevValue !== nextValue) {
-      this.setState({ status: 'pending' });
-      this.getImages();
-    }
-
-    console.log(prevValue);
-
-    // console.log(prevValue);
-    // console.log(nextValue);
-    // console.log(this.state.pageNumber);
-    // console.log(prevState.pageNumber);
-
-    // if (
-    //   prevState.pageNumber !== this.state.pageNumber ||
-    //   prevValue !== this.state.value
-    // ) {
+    // if (prevValue !== nextValue) {
     //   this.setState({ status: 'pending' });
     //   this.getImages();
     // }
+
+    console.log(prevValue);
+
+    if (
+      prevState.pageNumber !== this.state.pageNumber ||
+      prevValue !== this.state.value
+    ) {
+      this.setState({ status: 'pending' });
+      this.getImages();
+    }
   }
 
   onOpenModal = (url, alt) => {
